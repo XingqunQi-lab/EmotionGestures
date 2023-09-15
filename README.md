@@ -4,6 +4,7 @@
 [EmotionGesture: Audio-Driven Diverse Emotional Co-Speech 3D Gesture Generation](https://arxiv.org/abs/2305.18891)
 
 [Xingqun Qi](https://scholar.google.com.hk/citations?hl=zh-CN&user=3tO41a8AAAAJ&view_op=list_works&sortby=pubdate), [Chen Liu](https://scholar.google.com/citations?hl=zh-CN&user=HmvE2WsAAAAJ&view_op=list_works&sortby=pubdate), [Lincheng Li](https://scholar.google.com/citations?user=NYLsVscAAAAJ&hl=en), Jie Hou, Haoran Xin, [Xin Yu](https://scholar.google.com/citations?user=oxdtuSEAAAAJ&hl=en)
+![image](https://github.com/XingqunQi-lab/EmotionGestures/blob/main/images/insight.jpg)
 
 ## Dataset
 [Our newly collected TED Emotion Dataset is available now.](https://drive.google.com/file/d/1Yzks2FjbIg0n94y2rVw3plI0sq7Wpy8L/view?usp=sharing)
