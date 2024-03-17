@@ -9,7 +9,7 @@
 ## Dataset
 [Our newly collected TED Emotion Dataset is available now.](https://drive.google.com/file/d/1Yzks2FjbIg0n94y2rVw3plI0sq7Wpy8L/view?usp=sharing)
 ## Code
-We are organizing our code and will release the code soon. Sorry for the delay.
+We are organizing our training code and will release the code soon. Sorry for the delay.
 ## Acknowledgement
 Thanks for the pioneering works [Trimodal](https://github.com/ai4r/Gesture-Generation-from-Trimodal-Context) and [Frankmocap](https://github.com/facebookresearch/frankmocap).
 
