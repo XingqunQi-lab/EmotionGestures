@@ -272,7 +272,7 @@ def main(config):
     Full_dataset = ConcatDataset([train_dataset, val_dataset])
 
     
-    kf = KFold(n_splits=5, shuffle=True)
+    kf = KFold(n_splits=10, shuffle=True)
     
    
     train_K_fold(args, Full_dataset, test_dataset, kf, collate_fn, device)
@@ -293,7 +293,7 @@ if __name__ == '__main__':
     parser.add_argument("--beta2", type=float, default=0.999)
     parser.add_argument('--total_epoch', type=int, default=60)
     parser.add_argument("--pose_dim", type=int, default = 4)
-    parser.add_argument("--model_save_path", type=str, default = '/data/xingqunqi/TMM_revision/checkpoints/audio_emotion_classifer_5_fold_v1')
+    parser.add_argument("--model_save_path", type=str, default = '/data/xingqunqi/TMM_revision/checkpoints/audio_emotion_classifer_10_fold_v1')
     parser.add_argument("--latent_dim", type=int, default=128) 
     parser.add_argument("--wordembed_path", type=str, default='/mnt/data/xingqun.qi/BEAT_dataset/crawl-300d-2M-subword.bin') 
     parser.add_argument("--wordembed_dim", type=int, default=300)
