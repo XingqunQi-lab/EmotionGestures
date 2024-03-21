@@ -86,7 +86,6 @@ def vis_confusion_matrix(conf_matrix, Emotion_kinds):
     plt.show()
     plt.close()
 
-
 class FocalLoss(nn.Module):
     def __init__(self, alpha=1, gamma=2, reduction='mean'):
         super(FocalLoss, self).__init__()
@@ -105,9 +104,12 @@ class FocalLoss(nn.Module):
         else:
             return focal_loss
 
+   
+
 def train_K_fold(args, train_dataset, test_dataset, kf, collate_fn, device):
     start = time.time()
-    
+    alpha = [0.2, 1, 1, 1, 1, 1, 1, 1] # re-weighting factors for each class
+    gamma = 2 # focusing parameter
   
     # model = EmotionNet() 
     # pretrain_model = "/root/BEAT_Emotion/checkpoints/audio_emotion_classifer_train_test/checkpoint_iteration10400.pth"
@@ -129,7 +131,7 @@ def train_K_fold(args, train_dataset, test_dataset, kf, collate_fn, device):
         model.to(device)
         model_optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2), weight_decay=1e-5)
         global_iter = 0
-        criterion = nn.CrossEntropyLoss()        
+        # criterion = nn.CrossEntropyLoss()        
         
         train_sampler = torch.utils.data.sampler.SubsetRandomSampler(train_index)
         val_sampler = torch.utils.data.sampler.SubsetRandomSampler(val_index)
@@ -142,7 +144,13 @@ def train_K_fold(args, train_dataset, test_dataset, kf, collate_fn, device):
                               collate_fn=collate_fn, sampler=val_sampler
                               )
         for epoch in range(args.total_epoch):
-        
+            class_count = [0] * 8
+            for _, label in train_loader:
+                class_count[label] += 1
+            class_weights = [sum(class_count) / (len(class_count) * count) for count in class_count]
+            alpha = [class_weights[label] for label in range(model.num_classes)]
+            
+            criterion = FocalLoss(alpha=alpha, gamma=gamma, reduction='mean')
             
             for iter_idx, data in enumerate(train_loader, 0):
                 model.train()
@@ -311,7 +319,7 @@ if __name__ == '__main__':
     parser.add_argument("--beta2", type=float, default=0.999)
     parser.add_argument('--total_epoch', type=int, default=60)
     parser.add_argument("--pose_dim", type=int, default = 4)
-    parser.add_argument("--model_save_path", type=str, default = '/data/xingqunqi/BEAT_Emotion/checkpoints/audio_emotion_classifer_10_fold_v1')
+    parser.add_argument("--model_save_path", type=str, default = '/data/xingqunqi/TMM_revision/checkpoints/audio_emotion_classifer_10_fold_v1')
     parser.add_argument("--latent_dim", type=int, default=128) 
     parser.add_argument("--wordembed_path", type=str, default='/mnt/data/xingqun.qi/BEAT_dataset/crawl-300d-2M-subword.bin') 
     parser.add_argument("--wordembed_dim", type=int, default=300)
