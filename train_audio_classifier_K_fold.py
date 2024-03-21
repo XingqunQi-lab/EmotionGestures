@@ -86,7 +86,24 @@ def vis_confusion_matrix(conf_matrix, Emotion_kinds):
     plt.show()
     plt.close()
 
-    
+
+class FocalLoss(nn.Module):
+    def __init__(self, alpha=1, gamma=2, reduction='mean'):
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.reduction = reduction
+
+    def forward(self, inputs, targets):
+        ce_loss = nn.CrossEntropyLoss(reduction='none')(inputs, targets)
+        pt = torch.exp(-ce_loss)
+        focal_loss = self.alpha * (1-pt)**self.gamma * ce_loss
+        if self.reduction == 'mean':
+            return torch.mean(focal_loss)
+        elif self.reduction == 'sum':
+            return torch.sum(focal_loss)
+        else:
+            return focal_loss
 
 def train_K_fold(args, train_dataset, test_dataset, kf, collate_fn, device):
     start = time.time()
@@ -125,6 +142,7 @@ def train_K_fold(args, train_dataset, test_dataset, kf, collate_fn, device):
                               collate_fn=collate_fn, sampler=val_sampler
                               )
         for epoch in range(args.total_epoch):
+        
             
             for iter_idx, data in enumerate(train_loader, 0):
                 model.train()
